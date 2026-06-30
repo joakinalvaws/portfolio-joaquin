@@ -6,16 +6,16 @@ export const personalInfo = {
   email: "joakinalvaws@gmail.com",
   phone: "+51 936889160",
   description:
-    "Técnico en Sistemas especializado en automatización de procesos, soluciones Cloud (AWS) y flujos No-Code/Low-Code con n8n.",
+    "Técnico en Sistemas especializado en automatización, IA aplicada y soluciones Cloud serverless (AWS). Construyo sistemas end-to-end en producción.",
   bio: [
-    "Técnico en Sistemas egresado del IESTP María Rosario Araoz Pinto, especializado en soporte de infraestructura y automatización de procesos.",
-    "Mi enfoque está en la implementación de soluciones Cloud con AWS y la optimización de flujos de trabajo mediante herramientas No-Code/Low-Code como n8n. He desarrollado desde bots de WhatsApp con IA hasta pipelines serverless de procesamiento de pedidos.",
+    "Técnico en Sistemas egresado del IESTP María Rosario Araoz Pinto, especializado en automatización de procesos, IA aplicada e infraestructura Cloud.",
+    "Mi trabajo va de pipelines serverless en AWS (Lambda, Bedrock, DynamoDB con Terraform) a e-commerce full-stack en producción y agentes autónomos de IA. He llevado a producción tres sistemas: detección de anomalías de inventario con IA (OpsRopz), una tienda online con pagos reales y asistente de WhatsApp (KRU Store) y un agente de auditoría de dashboards (Dashboard Guardian).",
     "Creo firmemente que la automatización no reemplaza personas, las potencia. Mi objetivo es transformar procesos manuales y repetitivos en flujos inteligentes que ahorren tiempo y recursos.",
   ],
   highlights: [
     "Técnico en Sistemas",
-    "Cloud AWS",
-    "n8n Automation",
+    "Cloud AWS & Serverless",
+    "IA & Agentes",
     "Lima, Perú",
     "Autodidacta",
     "Inglés Técnico",
@@ -27,100 +27,53 @@ export const personalInfo = {
   cvFile: "/CV_Joaquin_Alva_Vega.pdf",
 };
 
-export const projects = [
-  {
-    id: 1,
-    title: "Agente Conversacional WhatsApp",
-    description:
-      "Bot de WhatsApp end-to-end para clínica dental. Integra Evolution API, n8n (AI Agent) y GPT-4o-mini para gestión conversacional con memoria persistente. Incluye reserva real en Google Calendar, registro en Supabase y escalado a humano.",
-    tags: [
-      "n8n",
-      "GPT-4o",
-      "Supabase",
-      "Evolution API",
-      "Docker",
-      "Traefik",
-      "Google Calendar",
-      "WhatsApp",
-      "VPS Linux",
-    ],
-    status: "Completado",
-    image: "proyecto-whatsapp.webp",
-    github: "",
-    architecture: `┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│  WhatsApp    │────▶│  Evolution   │────▶│   Webhook   │
-│  Usuario     │     │  API         │     │   n8n       │
-└─────────────┘     └──────────────┘     └──────┬──────┘
-                                                │
-                                         ┌──────▼──────┐
-                                         │  AI Agent   │
-                                         │  GPT-4o     │
-                                         └──────┬──────┘
-                                                │
-                          ┌─────────────────────┼─────────────────────┐
-                          │                     │                     │
-                   ┌──────▼──────┐      ┌──────▼──────┐      ┌──────▼──────┐
-                   │  Supabase   │      │  Google     │      │  Escalado   │
-                   │  (Memoria)  │      │  Calendar   │      │  a Humano   │
-                   └─────────────┘      └─────────────┘      └─────────────┘`,
-  },
-  {
-    id: 2,
-    title: "Pipeline Automatización de Pedidos",
-    description:
-      "Sistema de gestión de pedidos para tienda de materiales de construcción. Frontend React con catálogo, carrito y formulario. Backend serverless en AWS Lambda que registra en Google Sheets y dispara workflow n8n para notificaciones automáticas.",
-    tags: [
-      "React",
-      "Vite",
-      "AWS Lambda",
-      "Google Sheets API",
-      "n8n",
-      "Tailwind CSS",
-      "Serverless",
-      "S3",
-      "CloudFront",
-    ],
-    status: "Completado",
-    image: "proyecto-pipeline.webp",
-    github: "",
-    architecture: `┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│  React +    │────▶│  AWS Lambda  │────▶│  Google     │
-│  Vite       │     │  (Serverless)│     │  Sheets     │
-└─────────────┘     └──────┬───────┘     └─────────────┘
-                           │
-                    ┌──────▼──────┐
-                    │     n8n     │
-                    │(Notificac.) │
-                    └─────────────┘`,
-  },
-];
+// Los proyectos ahora viven como case studies en src/data/projects/.
+// Ver caseStudies en '../data/projects'.
 
 export const techStack = [
   {
     category: "Cloud & Infraestructura",
-    items: ["AWS Lambda", "S3", "CloudFront", "Docker", "Traefik", "VPS Linux"],
-  },
-  {
-    category: "Automatización",
     items: [
-      "n8n",
-      "Webhooks",
-      "Google Sheets API",
-      "Google Calendar API",
-      "Evolution API",
+      "AWS Lambda",
+      "AWS Bedrock",
+      "Terraform",
+      "Docker",
+      "Traefik",
+      "Vercel",
+      "VPS Linux",
     ],
   },
   {
+    category: "IA & Agentes",
+    items: ["Claude (Anthropic)", "OpenAI Agents SDK", "GPT-4o", "AI Agents"],
+  },
+  {
     category: "Desarrollo",
-    items: ["React", "Vite", "Tailwind CSS", "Node.js", "JavaScript (ES6+)"],
+    items: [
+      "Next.js",
+      "React",
+      "Node.js",
+      "Python",
+      "JavaScript (ES6+)",
+      "Tailwind CSS",
+    ],
   },
   {
-    category: "AI & Bots",
-    items: ["GPT-4o / OpenAI", "WhatsApp Bot", "AI Agents (LangChain)"],
+    category: "Datos & Bases",
+    items: ["Supabase (PostgreSQL)", "PostgreSQL", "DynamoDB", "Upstash Redis"],
   },
   {
-    category: "Base de Datos",
-    items: ["Supabase (PostgreSQL)", "Google Sheets"],
+    category: "Automatización & Integraciones",
+    items: [
+      "GitHub Actions",
+      "n8n",
+      "Webhooks",
+      "Power BI REST API",
+      "Azure AD",
+      "Mercado Pago",
+      "WhatsApp",
+      "Telegram",
+    ],
   },
   {
     category: "Herramientas",
@@ -129,10 +82,10 @@ export const techStack = [
 ];
 
 export const metrics = [
-  { value: 2, suffix: "", label: "Proyectos End-to-End" },
-  { value: 6, suffix: "+", label: "Herramientas de AI Agent" },
-  { value: 3, suffix: "", label: "Servicios Cloud AWS" },
-  { value: 100, suffix: "%", label: "Automatización No-Code" },
+  { value: 3, suffix: "", label: "Proyectos en producción" },
+  { value: 3, suffix: "", label: "Agentes de IA integrados" },
+  { value: 94, suffix: "%", label: "Cobertura de tests (IA)" },
+  { value: 100, suffix: "%", label: "Infraestructura como código" },
 ];
 
 export const navLinks = [
@@ -144,12 +97,11 @@ export const navLinks = [
 ];
 
 export const terminalLines = [
-  { text: "$ node automate.js", type: "command" },
-  { text: "→ Conectando con n8n...        ✓", type: "output" },
-  { text: "→ Configurando webhook...      ✓", type: "output" },
-  { text: "→ Pipeline activo              ✓", type: "output" },
-  { text: "→ Sincronizando AWS Lambda...  ✓", type: "output" },
-  { text: "→ WhatsApp Bot online          ✓", type: "output" },
+  { text: "$ node deploy.js", type: "command" },
+  { text: "→ OpsRopz · AWS Bedrock (Claude)   ✓", type: "output" },
+  { text: "→ KRU Store · Mercado Pago         ✓", type: "output" },
+  { text: "→ Dashboard Guardian · Power BI    ✓", type: "output" },
+  { text: "→ CI/CD GitHub Actions             ✓", type: "output" },
   { text: "", type: "blank" },
-  { text: "✅ Todos los sistemas operativos", type: "success" },
+  { text: "✅ Todos los sistemas en producción", type: "success" },
 ];

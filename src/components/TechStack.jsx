@@ -1,72 +1,6 @@
 import { motion } from 'framer-motion'
-import {
-  SiReact,
-  SiVite,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiJavascript,
-  SiDocker,
-  SiGit,
-  SiGithub,
-  SiPostman,
-  SiLinux,
-  SiGooglesheets,
-  SiGooglecalendar,
-  SiSupabase,
-  SiOpenai,
-} from 'react-icons/si'
-import {
-  FaAws,
-  FaServer,
-  FaRobot,
-  FaCogs,
-  FaDatabase,
-  FaTools,
-  FaCode,
-  FaCloud,
-  FaWhatsapp,
-  FaBrain,
-} from 'react-icons/fa'
-import { VscTerminalBash } from 'react-icons/vsc'
 import { techStack } from '../data/content'
-
-const iconMap = {
-  'AWS Lambda': FaAws,
-  S3: FaAws,
-  CloudFront: FaAws,
-  Docker: SiDocker,
-  Traefik: FaServer,
-  'VPS Linux': SiLinux,
-  n8n: FaCogs,
-  Webhooks: FaCloud,
-  'Google Sheets API': SiGooglesheets,
-  'Google Calendar API': SiGooglecalendar,
-  'Evolution API': FaWhatsapp,
-  React: SiReact,
-  Vite: SiVite,
-  'Tailwind CSS': SiTailwindcss,
-  'Node.js': SiNodedotjs,
-  'JavaScript (ES6+)': SiJavascript,
-  'GPT-4o / OpenAI': SiOpenai,
-  'WhatsApp Bot': FaWhatsapp,
-  'AI Agents (LangChain)': FaBrain,
-  'Supabase (PostgreSQL)': SiSupabase,
-  'Google Sheets': SiGooglesheets,
-  Git: SiGit,
-  GitHub: SiGithub,
-  'VS Code': FaCode,
-  Postman: SiPostman,
-  WSL: VscTerminalBash,
-}
-
-const categoryIcons = {
-  'Cloud & Infraestructura': FaCloud,
-  Automatización: FaCogs,
-  Desarrollo: FaCode,
-  'AI & Bots': FaRobot,
-  'Base de Datos': FaDatabase,
-  Herramientas: FaTools,
-}
+import { getTechIcon, getCategoryIcon } from '../utils/techIcons'
 
 export default function TechStack() {
   return (
@@ -87,7 +21,7 @@ export default function TechStack() {
 
         <div className="space-y-10">
           {techStack.map((group, gi) => {
-            const CategoryIcon = categoryIcons[group.category] || FaTools
+            const CategoryIcon = getCategoryIcon(group.category)
             return (
               <motion.div
                 key={group.category}
@@ -105,7 +39,7 @@ export default function TechStack() {
 
                 <div className="flex flex-wrap gap-3">
                   {group.items.map((item, ii) => {
-                    const Icon = iconMap[item] || FaCogs
+                    const Icon = getTechIcon(item)
                     return (
                       <motion.div
                         key={item}

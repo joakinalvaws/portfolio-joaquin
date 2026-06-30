@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenuAlt3, HiX } from 'react-icons/hi'
 import { navLinks } from '../data/content'
@@ -6,8 +7,14 @@ import { navLinks } from '../data/content'
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('#inicio')
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
+    // El scroll-spy solo aplica en el home (las secciones solo existen ahí).
+    if (!isHome) return
+
     const sectionIds = navLinks.map((l) => l.href.replace('#', ''))
     const observers = []
 
@@ -29,12 +36,18 @@ export default function Navbar() {
     })
 
     return () => observers.forEach((o) => o.disconnect())
-  }, [])
+  }, [isHome])
 
   const handleClick = (href) => {
     setIsOpen(false)
-    const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    if (isHome) {
+      // Ya estamos en el home: scroll directo a la sección.
+      const el = document.querySelector(href)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      // Estamos en un case study: volver al home con el hash de destino.
+      navigate(`/${href}`)
+    }
   }
 
   return (

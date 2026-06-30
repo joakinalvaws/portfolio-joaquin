@@ -1,11 +1,8 @@
+import { Routes, Route } from 'react-router-dom'
 import CircuitBackground from './components/CircuitBackground'
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
-import Projects from './components/Projects'
-import TechStack from './components/TechStack'
-import Metrics from './components/Metrics'
-import Contact from './components/Contact'
+import Home from './pages/Home'
+import CaseStudy from './pages/CaseStudy'
 
 function App() {
   return (
@@ -13,12 +10,10 @@ function App() {
       <CircuitBackground />
       <div className="relative z-10">
         <Navbar />
-        <Hero />
-        <About />
-        <Projects />
-        <TechStack />
-        <Metrics />
-        <Contact />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/proyectos/:slug" element={<CaseStudy />} />
+        </Routes>
       </div>
     </div>
   )
