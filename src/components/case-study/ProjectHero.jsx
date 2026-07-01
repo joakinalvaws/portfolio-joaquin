@@ -2,9 +2,11 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { HiArrowLeft } from 'react-icons/hi'
+import { getAsset } from '../../utils/assets'
 
 export default function ProjectHero({ proyecto }) {
-  const { titulo, subtitulo, estado, enlaces } = proyecto
+  const { titulo, subtitulo, estado, enlaces, logo } = proyecto
+  const logoSrc = getAsset(logo)
 
   return (
     <header className="border-b border-[#1A1A1A] px-6 pb-12 pt-28">
@@ -25,7 +27,16 @@ export default function ProjectHero({ proyecto }) {
           <span className="mb-4 inline-block rounded-full bg-green-900/60 px-3 py-1 text-xs font-medium text-green-400">
             {estado}
           </span>
-          <h1 className="mb-3 text-4xl font-bold text-[#F5F5F5] md:text-5xl">{titulo}</h1>
+          <div className="mb-3 flex items-center gap-4">
+            {logoSrc && (
+              <img
+                src={logoSrc}
+                alt={`Logo de ${titulo}`}
+                className="h-12 w-12 shrink-0 rounded-lg object-contain md:h-16 md:w-16"
+              />
+            )}
+            <h1 className="text-4xl font-bold text-[#F5F5F5] md:text-5xl">{titulo}</h1>
+          </div>
           <p className="mb-8 font-mono text-lg text-[#DC2626]">{subtitulo}</p>
 
           <div className="flex flex-wrap gap-4">

@@ -5,8 +5,18 @@ import { getAsset } from '../../utils/assets'
 import Lightbox from './Lightbox'
 
 export default function MediaGallery({ galeria }) {
-  const [activeSrc, setActiveSrc] = useState(null)
+  const [activeIndex, setActiveIndex] = useState(null)
   if (!galeria?.length) return null
+
+  // Solo las imágenes con asset real son navegables en el lightbox
+  // (los placeholders no abren nada).
+  const images = galeria
+    .map((item) => ({ ...item, resolvedSrc: getAsset(item.src) }))
+    .filter((item) => item.resolvedSrc)
+
+  const active = activeIndex !== null ? images[activeIndex] : null
+  const goTo = (delta) =>
+    setActiveIndex((i) => (i + delta + images.length) % images.length)
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-12">
@@ -26,8 +36,8 @@ export default function MediaGallery({ galeria }) {
             >
               {src ? (
                 <button
-                  onClick={() => setActiveSrc({ src, alt: item.alt })}
-                  className="group relative block w-full overflow-hidden rounded-xl border border-[#1A1A1A]"
+                  onClick={() => setActiveIndex(images.findIndex((img) => img.src === item.src))}
+                  className="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-[#1A1A1A]"
                   aria-label={`Ampliar: ${item.alt}`}
                 >
                   <img src={src} alt={item.alt} loading="lazy" className="h-full w-full object-cover" />
@@ -37,7 +47,7 @@ export default function MediaGallery({ galeria }) {
                 </button>
               ) : (
                 // Placeholder visible para asset pendiente
-                <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[#DC2626]/40 bg-[#0A0A0A] p-4 text-center">
+                <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[#DC2626]/40 bg-[#0A0A0A] p-4 text-center">
                   <HiPhotograph className="text-3xl text-[#9CA3AF]" />
                   <span className="font-mono text-xs text-[#DC2626]">⚠ {item.placeholder}</span>
                 </div>
@@ -47,8 +57,15 @@ export default function MediaGallery({ galeria }) {
         })}
       </div>
 
-      <Lightbox open={!!activeSrc} onClose={() => setActiveSrc(null)} label={activeSrc?.alt}>
-        {activeSrc && <img src={activeSrc.src} alt={activeSrc.alt} className="rounded-lg" />}
+      <Lightbox
+        open={activeIndex !== null}
+        onClose={() => setActiveIndex(null)}
+        onPrev={images.length > 1 ? () => goTo(-1) : undefined}
+        onNext={images.length > 1 ? () => goTo(1) : undefined}
+        counter={active ? `${activeIndex + 1} / ${images.length}` : null}
+        label={active?.alt}
+      >
+        {active && <img src={active.resolvedSrc} alt={active.alt} className="rounded-lg" />}
       </Lightbox>
     </section>
   )

@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Windows/WSL metadata (aparece al descargar archivos)
+*:Zone.Identifier

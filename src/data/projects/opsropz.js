@@ -1,83 +1,104 @@
-// Case study: OpsRopz
-// NOTA: textos de ejemplo realistas (Fase 5 del brief). Reemplazar con contenido final.
+// Case study: OpsRopz (repo: opsRopz-Dashboard)
+// Contenido extraído del repo real vía prompt. Algunos spans de prosa se
+// reconstruyeron por corrupción del pegado; ítems con datos inciertos → // VERIFICAR.
 const opsropz = {
   slug: 'opsropz',
   titulo: 'OpsRopz',
-  subtitulo: 'Inteligencia operacional para retail con IA',
+  subtitulo:
+    'Sistema de inteligencia operacional para retail — AWS serverless + IA generativa.',
   estado: 'En producción',
   resumen:
-    'Detección de anomalías de inventario en tiempo real con IA, con alertas en lenguaje natural por WhatsApp, Slack y Email.',
-  // Stack principal para chips de la card (subconjunto del stack completo)
-  stackPrincipal: ['AWS Lambda', 'AWS Bedrock', 'DynamoDB', 'Terraform'],
+    'Vigila las operaciones de una tienda retail en tiempo real, detecta anomalías con IA y avisa al equipo por WhatsApp, Slack y email antes de que escalen.',
+  stackPrincipal: ['AWS Lambda', 'Amazon Bedrock (Claude)', 'Terraform', 'Next.js'],
   cardImage: 'opsropz-card.webp',
+  logo: 'opsropz-logo.webp', // opcional: si no existe el archivo, no se muestra
 
   problema:
-    'En retail, las inconsistencias de inventario (mermas, descuadres entre el stock teórico y el real, movimientos sospechosos) suelen detectarse tarde: al cierre de mes o durante un conteo físico, cuando la pérdida ya ocurrió. Los equipos de operaciones reciben reportes en hojas de cálculo que nadie alcanza a revisar a tiempo, y las alertas técnicas existentes son ruido difícil de interpretar para quien toma la decisión en piso de venta.',
+    'En una tienda retail, los problemas operativos —quiebres de stock, caídas de ventas, pedidos a proveedores que no llegan— suelen detectarse tarde: cuando alguien revisa una planilla a fin de día o nota el estante vacío. Nadie vigila los números las 24 horas y los reportes se leen con muy poca frecuencia como para reaccionar a tiempo. El resultado son ventas perdidas y decisiones tardías.',
 
   solucion:
-    'OpsRopz es un pipeline serverless y orientado a eventos sobre AWS que procesa los movimientos de inventario a medida que ocurren. Cada evento entra por SQS, se persiste en DynamoDB y dispara una capa de detección de anomalías. Cuando se identifica una desviación relevante, se invoca a Claude Haiku a través de AWS Bedrock para traducir el hallazgo técnico a una explicación accionable en lenguaje natural ("la tienda X tiene 12 unidades menos de lo esperado en el SKU Y, patrón similar al de la semana pasada"). La alerta se distribuye por WhatsApp, Slack o Email según el canal del responsable, vía SNS/SES. Se eligió arquitectura serverless para escalar a cero costo en horas valle y absorber picos sin aprovisionar servidores; Terraform mantiene toda la infraestructura como código y CI/CD en GitHub Actions garantiza despliegues reproducibles.',
+    'OpsRopz invierte el modelo: en vez de que el equipo revise reportes, el sistema los busca cuando algo necesita atención. Cada evento de la tienda (inventario, ventas, pedidos) fluye por un pipeline serverless en AWS que calcula KPIs en tiempo real; cuando aparece una anomalía real, un modelo de IA (Claude Haiku 4.5) la explica en lenguaje natural con una recomendación accionable, y la distribuye por el canal adecuado —WhatsApp, Slack o email— según su gravedad. Se eligió una arquitectura híbrida (núcleo serverless dentro de la capa gratuita de AWS + un VPS) para minimizar costos, con patrones de resiliencia (reintentos, DLQ, idempotencia) para que ningún evento se pierda en silencio. El dashboard público en Next.js muestra KPIs y alertas sin exponer credenciales gracias a un proxy server-side, y toda la infraestructura está descrita como código con Terraform.',
 
   arquitectura: {
     imagen: 'opsropz-arquitectura.webp',
     placeholder: 'DIAGRAMA OpsRopz — reemplazar',
     descripcion:
-      'Flujo orientado a eventos: ingesta por SQS → persistencia en DynamoDB → capa de detección → explicación con Claude Haiku (Bedrock) → distribución multicanal vía SNS/SES.',
-    ascii: `┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│  Eventos    │────▶│  SQS         │────▶│  Lambda     │
-│  Inventario │     │  (cola)      │     │  Ingesta    │
-└─────────────┘     └──────────────┘     └──────┬──────┘
-                                                │
-                                         ┌──────▼──────┐
-                                         │  DynamoDB   │
-                                         │  + Detector │
-                                         └──────┬──────┘
-                                                │ anomalía
-                                         ┌──────▼──────┐
-                                         │  Bedrock    │
-                                         │ Claude Haiku│
-                                         └──────┬──────┘
-                          ┌─────────────────────┼─────────────────────┐
-                   ┌──────▼──────┐      ┌──────▼──────┐      ┌──────▼──────┐
-                   │  WhatsApp   │      │  Slack      │      │  Email      │
-                   │  (SNS)      │      │  (SNS)      │      │  (SES)      │
-                   └─────────────┘      └─────────────┘      └─────────────┘`,
+      'Pipeline event-driven: los eventos entran por SQS, se procesan en Lambdas, se analizan con IA (Bedrock) y se distribuyen como alertas multicanal; el dashboard consume una API REST protegida.',
+    ascii: `Eventos retail (VPS) → SQS → Lambda (processor) → DynamoDB (KPIs)
+                       ↓ DLQ                ↓
+                             Lambda (analyzer) → Bedrock / Claude
+                                       ↓
+                                     SNS → CloudWatch
+                                       ↓
+                       n8n (VPS) → WhatsApp / Slack
+                       SES → Email (reporte diario)
+                                       ↓
+                   API Gateway → Dashboard Next.js (Vercel)`,
   },
 
   stack: [
+    'Python 3.12',
     'AWS Lambda',
-    'AWS SQS',
-    'AWS DynamoDB',
-    'AWS SNS',
-    'AWS SES',
-    'AWS Bedrock',
-    'Claude Haiku',
-    'Terraform',
+    'Amazon SQS (+DLQ)',
+    'DynamoDB (+Streams)',
+    'Amazon SNS',
+    'Amazon EventBridge',
+    'Amazon SES',
+    'Amazon S3',
+    'API Gateway',
+    'Amazon Bedrock — Claude Haiku 4.5',
+    'AWS IAM',
+    'CloudWatch',
+    'Terraform (workspaces dev/prod)',
     'GitHub Actions',
-    'Python',
+    'pre-commit',
+    'n8n',
+    'Evolution API (WhatsApp)',
+    'Slack API',
+    'Next.js 15',
+    'React 19',
+    'Recharts',
+    'Tailwind CSS',
+    'Vercel',
+    'pytest',
+    'moto',
+    'ruff',
+    'black',
+    'pip-audit',
   ],
 
   metricas: [
-    { label: 'Cobertura de tests (capa IA)', valor: '94%' },
-    { label: 'Canales de alerta', valor: '3' },
-    { label: 'Infraestructura como código', valor: '100%' },
-    { label: 'Latencia evento → alerta', valor: '<5s' },
+    { label: 'Cobertura de tests', valor: '≥70% en CI · 94% capa IA' }, // VERIFICAR: el valor llegó truncado en el pegado
+    { label: 'Funciones serverless', valor: '5 Lambdas event-driven' },
+    { label: 'Tests automatizados', valor: '78 (pytest)' },
+    { label: 'Infraestructura como código', valor: '57 recursos AWS (Terraform)' },
   ],
 
   galeria: [
-    { src: 'opsropz-alerta-whatsapp.webp', alt: 'Ejemplo de alerta en WhatsApp', placeholder: 'GIF OpsRopz — alerta WhatsApp — reemplazar' },
-    { src: 'opsropz-dashboard.webp', alt: 'Panel de anomalías', placeholder: 'CAPTURA OpsRopz — dashboard — reemplazar' },
+    { src: 'opsropz-1.webp', alt: 'Dashboard de KPIs de inventario en tiempo real', placeholder: 'CAPTURA — dashboard Next.js con KPIs y gráfico de días de stock — reemplazar' }, // captura sugerida: home del dashboard en vivo
+    { src: 'opsropz-2.webp', alt: 'Alerta de anomalía explicada por IA', placeholder: 'CAPTURA — alerta con severidad, regla y análisis en lenguaje natural — reemplazar' }, // captura sugerida: lista de alertas con una crítica
+    { src: 'opsropz-3.webp', alt: 'Alerta entregada por WhatsApp/Slack', placeholder: 'CAPTURA — notificación recibida en WhatsApp o Slack #ops-alertas — reemplazar' }, // captura sugerida: mensaje real en el canal
+    { src: 'opsropz-4.webp', alt: 'Observabilidad y CI', placeholder: 'CAPTURA — CloudWatch dashboard o pipeline CI en verde — reemplazar' }, // captura sugerida: CloudWatch o Actions CI verde
   ],
 
   video: null,
 
   enlaces: {
-    github: '',
-    demo: '',
-    adrs: [],
+    github: 'https://github.com/joakinalvaws/opsRopz-Dashboard',
+    demo: 'https://opsropz-dashboard.vercel.app',
+    adrs: [
+      { label: 'ADR-0001 — Arquitectura híbrida AWS + VPS', url: 'https://github.com/joakinalvaws/opsRopz-Dashboard/blob/main/docs/decisions/0001-hybrid-aws-vps.md' },
+      { label: 'ADR-0002 — SSM Parameter Store vs Secrets Manager', url: 'https://github.com/joakinalvaws/opsRopz-Dashboard/blob/main/docs/decisions/0002-ssm-over-secrets-manager.md' },
+      { label: 'ADR-0003 — Resiliencia: DLQ + fallos parciales de batch', url: 'https://github.com/joakinalvaws/opsRopz-Dashboard/blob/main/docs/decisions/0003-dlq-batch-failures.md' },
+      { label: 'ADR-0004 — Dashboard con proxy server-side de la API key', url: 'https://github.com/joakinalvaws/opsRopz-Dashboard/blob/main/docs/decisions/0004-dashboard-server-side-api-key.md' },
+      { label: 'ADR-0005 — Claude Haiku 4.5 vía inference profile', url: 'https://github.com/joakinalvaws/opsRopz-Dashboard/blob/main/docs/decisions/0005-claude-haiku-inference-profile.md' },
+      { label: 'ADR-0006 — Estado remoto de Terraform (S3 + locks DynamoDB)', url: 'https://github.com/joakinalvaws/opsRopz-Dashboard/blob/main/docs/decisions/0006-terraform-remote-state.md' },
+      { label: 'ADR-0007 — CD de infra con apply manual (workflow_dispatch)', url: 'https://github.com/joakinalvaws/opsRopz-Dashboard/blob/main/docs/decisions/0007-terraform-cd-manual.md' },
+    ],
   },
 
   aprendizajes:
-    'El mayor aprendizaje fue que el valor no estaba en detectar la anomalía sino en comunicarla: pasar el hallazgo por un LLM para redactarlo en lenguaje de negocio multiplicó la tasa de acción del equipo. A nivel técnico, invertir temprano en tests de la capa de IA (94% de cobertura) permitió iterar prompts con confianza, y mantener la infraestructura 100% en Terraform hizo que reproducir el entorno o revertir un cambio fuera trivial.',
+    'El valor no está en recolectar datos, sino en filtrar el ruido: solo las anomalías reales disparan un análisis, evitando la fatiga de alertas. La IA generativa convierte números en decisiones al explicar "por qué importa" y "qué hacer". Tratar la resiliencia como requisito desde el diseño (reintentos, DLQ, idempotencia, observabilidad) es lo que hace confiable a un sistema que opera sin supervisión constante. Y documentar las decisiones (ADRs) más automatizar la calidad en CI (tests, linters, escaneo de dependencias) mantiene el proyecto mantenible a medida que crece.',
 }
 
 export default opsropz

@@ -12,6 +12,7 @@ import dashboardGuardian from './dashboard-guardian'
  * @property {string} resumen       - 1-2 líneas para la card del home
  * @property {string[]} stackPrincipal - subconjunto de tecnologías para chips de la card
  * @property {string} cardImage     - imagen de la card (puede no existir → placeholder)
+ * @property {string} [logo]        - logo del proyecto junto al título (opcional, sin placeholder si falta)
  * @property {string} problema
  * @property {string} solucion
  * @property {{imagen:string, placeholder:string, descripcion:string, ascii:string}} arquitectura
