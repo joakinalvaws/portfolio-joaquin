@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { HiLocationMarker, HiUser } from 'react-icons/hi'
 import { personalInfo } from '../data/content'
+import { getAsset } from '../utils/assets'
 
-const profileImages = import.meta.glob('../assets/foto-perfil.webp', { eager: true, import: 'default' })
-const profileImg = profileImages['../assets/foto-perfil.webp'] || null
+// Acepta cualquier extensión común (webp, png, jpg...), no solo .webp literal.
+const profileImg = getAsset('foto-perfil.webp') || getAsset('foto-perfil.png') || getAsset('foto-perfil.jpg')
 
 function ProfileImage() {
   const [imgError, setImgError] = useState(!profileImg)

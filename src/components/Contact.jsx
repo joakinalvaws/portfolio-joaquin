@@ -1,18 +1,25 @@
 import { motion } from 'framer-motion'
-import { FaLinkedin, FaGithub } from 'react-icons/fa'
-import { HiMail, HiPhone, HiLocationMarker, HiDownload } from 'react-icons/hi'
+import { FaLinkedin, FaGithub, FaWhatsapp } from 'react-icons/fa'
+import { HiMail, HiLocationMarker, HiDownload } from 'react-icons/hi'
 import { personalInfo } from '../data/content'
+
+// Solo dígitos + código de país, como lo pide wa.me (sin "+" ni espacios).
+const whatsappNumber = personalInfo.phone.replace(/\D/g, '')
 
 const contactItems = [
   {
     icon: HiMail,
     label: personalInfo.email,
-    href: `mailto:${personalInfo.email}`,
+    // Abre el compositor web de Gmail directo (en vez de depender de un
+    // cliente de correo local configurado, que muchos visitantes no tienen).
+    href: `https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}`,
+    external: true,
   },
   {
-    icon: HiPhone,
+    icon: FaWhatsapp,
     label: personalInfo.phone,
-    href: `tel:${personalInfo.phone.replace(/\s/g, '')}`,
+    href: `https://wa.me/${whatsappNumber}`,
+    external: true,
   },
   {
     icon: HiLocationMarker,
@@ -80,7 +87,11 @@ export default function Contact() {
             return (
               <motion.div key={item.label} variants={fadeIn}>
                 {item.href ? (
-                  <a href={item.href} className="block">
+                  <a
+                    href={item.href}
+                    className="block"
+                    {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
                     {content}
                   </a>
                 ) : (
