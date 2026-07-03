@@ -16,4 +16,11 @@ export const certifications = [
     credencial: '',
     insignia: 'google-cloud-ai-ml-cert.webp',
   },
+  {
+    nombre: 'Master Claude Code',
+    emisor: 'Udemy',
+    anio: '2026',
+    credencial: '',
+    insignia: 'claude-code-cert.webp',
+  },
 ]
