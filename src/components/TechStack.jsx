@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { techStack } from '../data/content'
 import { getTechIcon, getCategoryIcon } from '../utils/techIcons'
 
@@ -7,7 +7,7 @@ export default function TechStack() {
     <section id="tech-stack" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Section title */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -17,13 +17,13 @@ export default function TechStack() {
             Stack Tecnológico
           </h2>
           <div className="mx-auto h-1 w-16 rounded bg-[#DC2626]" />
-        </motion.div>
+        </m.div>
 
         <div className="space-y-10">
           {techStack.map((group, gi) => {
             const CategoryIcon = getCategoryIcon(group.category)
             return (
-              <motion.div
+              <m.div
                 key={group.category}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -41,7 +41,7 @@ export default function TechStack() {
                   {group.items.map((item, ii) => {
                     const Icon = getTechIcon(item)
                     return (
-                      <motion.div
+                      <m.div
                         key={item}
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -54,11 +54,11 @@ export default function TechStack() {
                       >
                         <Icon className="text-lg text-[#9CA3AF] transition-colors duration-300 group-hover:text-[#DC2626]" />
                         <span className="text-sm text-[#9CA3AF]">{item}</span>
-                      </motion.div>
+                      </m.div>
                     )
                   })}
                 </div>
-              </motion.div>
+              </m.div>
             )
           })}
         </div>

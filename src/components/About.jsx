@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { HiLocationMarker, HiUser } from 'react-icons/hi'
 import { personalInfo } from '../data/content'
 import { getAsset } from '../utils/assets'
@@ -17,6 +17,10 @@ function ProfileImage() {
           <img
             src={profileImg}
             alt={personalInfo.fullName}
+            loading="lazy"
+            decoding="async"
+            width="320"
+            height="320"
             className="h-full w-full object-cover"
             onError={() => setImgError(true)}
           />
@@ -56,7 +60,7 @@ export default function About() {
     <section id="sobre-mi" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Section title */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -66,9 +70,9 @@ export default function About() {
             Sobre Mí
           </h2>
           <div className="mx-auto h-1 w-16 rounded bg-[#DC2626]" />
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           variants={container}
           initial="hidden"
           whileInView="visible"
@@ -76,24 +80,24 @@ export default function About() {
           className="grid items-start gap-12 lg:grid-cols-[auto_1fr]"
         >
           {/* Left — Photo */}
-          <motion.div variants={fadeIn}>
+          <m.div variants={fadeIn}>
             <ProfileImage />
-          </motion.div>
+          </m.div>
 
           {/* Right — Bio */}
           <div className="space-y-6">
             {personalInfo.bio.map((paragraph, i) => (
-              <motion.p
+              <m.p
                 key={i}
                 variants={fadeIn}
                 className="leading-relaxed text-[#9CA3AF]"
               >
                 {paragraph}
-              </motion.p>
+              </m.p>
             ))}
 
             {/* Highlights */}
-            <motion.div variants={fadeIn} className="flex flex-wrap gap-3 pt-4">
+            <m.div variants={fadeIn} className="flex flex-wrap gap-3 pt-4">
               {personalInfo.highlights.map((item) => (
                 <span
                   key={item}
@@ -102,9 +106,9 @@ export default function About() {
                   {item}
                 </span>
               ))}
-            </motion.div>
+            </m.div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

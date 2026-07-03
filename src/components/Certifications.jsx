@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { FaCertificate, FaExternalLinkAlt } from 'react-icons/fa'
 import { HiExternalLink } from 'react-icons/hi'
 import { certifications } from '../data/certifications'
@@ -19,7 +19,7 @@ function CertificationCard({ cert, index }) {
   }
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -36,7 +36,7 @@ function CertificationCard({ cert, index }) {
           }`}
         >
           {badge ? (
-            <img src={badge} alt="" className="h-full w-full object-contain" />
+            <img src={badge} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" />
           ) : (
             <FaCertificate className="text-xl" />
           )}
@@ -58,7 +58,7 @@ function CertificationCard({ cert, index }) {
       {badge && (
         <Lightbox open={open} onClose={() => setOpen(false)} label={`Insignia: ${cert.nombre}`}>
           <div className="flex flex-col items-center gap-4 p-2">
-            <img src={badge} alt={cert.nombre} className="max-h-[70vh] rounded-lg" />
+            <img src={badge} alt={cert.nombre} className="max-h-[70vh] max-w-full rounded-lg object-contain" />
             {cert.credencial && (
               <a
                 href={cert.credencial}
@@ -73,7 +73,7 @@ function CertificationCard({ cert, index }) {
           </div>
         </Lightbox>
       )}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -83,7 +83,7 @@ export default function Certifications() {
   return (
     <section id="certificaciones" className="px-6 py-20">
       <div className="mx-auto max-w-6xl">
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -91,7 +91,7 @@ export default function Certifications() {
         >
           <h2 className="mb-2 text-3xl font-bold text-[#F5F5F5] md:text-4xl">Certificaciones</h2>
           <div className="mx-auto h-1 w-16 rounded bg-[#DC2626]" />
-        </motion.div>
+        </m.div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {certifications.map((cert, i) => (

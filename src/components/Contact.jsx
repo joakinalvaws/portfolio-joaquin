@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { FaLinkedin, FaGithub, FaWhatsapp } from 'react-icons/fa'
 import { HiMail, HiLocationMarker, HiDownload } from 'react-icons/hi'
 import { personalInfo } from '../data/content'
@@ -43,7 +43,7 @@ export default function Contact() {
     <section id="contacto" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Section title */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -53,10 +53,10 @@ export default function Contact() {
             Contacto
           </h2>
           <div className="mx-auto h-1 w-16 rounded bg-[#DC2626]" />
-        </motion.div>
+        </m.div>
 
         {/* CTA phrase */}
-        <motion.p
+        <m.p
           variants={fadeIn}
           initial="hidden"
           whileInView="visible"
@@ -65,10 +65,10 @@ export default function Contact() {
         >
           ¿Tienes un proceso que necesita automatización?{' '}
           <span className="text-[#F5F5F5]">Hablemos.</span>
-        </motion.p>
+        </m.p>
 
         {/* Contact grid */}
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -85,7 +85,7 @@ export default function Contact() {
             )
 
             return (
-              <motion.div key={item.label} variants={fadeIn}>
+              <m.div key={item.label} variants={fadeIn}>
                 {item.href ? (
                   <a
                     href={item.href}
@@ -97,13 +97,13 @@ export default function Contact() {
                 ) : (
                   content
                 )}
-              </motion.div>
+              </m.div>
             )
           })}
-        </motion.div>
+        </m.div>
 
         {/* Social links */}
-        <motion.div
+        <m.div
           variants={fadeIn}
           initial="hidden"
           whileInView="visible"
@@ -125,10 +125,10 @@ export default function Contact() {
               </a>
             )
           })}
-        </motion.div>
+        </m.div>
 
         {/* Download CV button */}
-        <motion.div
+        <m.div
           variants={fadeIn}
           initial="hidden"
           whileInView="visible"
@@ -143,7 +143,7 @@ export default function Contact() {
             <HiDownload className="text-xl" />
             Descargar CV
           </a>
-        </motion.div>
+        </m.div>
 
         {/* Footer */}
         <div className="mt-20 border-t border-[#DC2626]/20 pt-8 text-center">

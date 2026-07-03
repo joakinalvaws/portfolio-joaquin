@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { HiArrowLeft } from 'react-icons/hi'
@@ -19,7 +19,7 @@ export default function ProjectHero({ proyecto }) {
           Volver a proyectos
         </Link>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -35,7 +35,7 @@ export default function ProjectHero({ proyecto }) {
                 className="h-12 w-12 shrink-0 rounded-lg object-contain md:h-16 md:w-16"
               />
             )}
-            <h1 className="text-4xl font-bold text-[#F5F5F5] md:text-5xl">{titulo}</h1>
+            <h1 className="min-w-0 break-words text-3xl font-bold text-[#F5F5F5] sm:text-4xl md:text-5xl">{titulo}</h1>
           </div>
           <p className="mb-8 font-mono text-lg text-[#DC2626]">{subtitulo}</p>
 
@@ -68,7 +68,7 @@ export default function ProjectHero({ proyecto }) {
               </span>
             )}
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </header>
   )

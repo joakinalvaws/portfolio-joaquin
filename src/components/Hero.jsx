@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { HiDownload } from 'react-icons/hi'
 import { personalInfo, terminalLines } from '../data/content'
 
@@ -29,10 +29,12 @@ function TerminalTypewriter() {
     const line = terminalLines[currentLine]
 
     if (line.type === 'blank') {
-      setDisplayedLines((prev) => [...prev, { ...line, displayed: '' }])
-      setCurrentLine((prev) => prev + 1)
-      setCurrentChar(0)
-      return
+      const timeout = setTimeout(() => {
+        setDisplayedLines((prev) => [...prev, { ...line, displayed: '' }])
+        setCurrentLine((prev) => prev + 1)
+        setCurrentChar(0)
+      }, 0)
+      return () => clearTimeout(timeout)
     }
 
     if (currentChar < line.text.length) {
@@ -121,7 +123,7 @@ export default function Hero() {
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
         {/* Left column */}
         <div>
-          <motion.p
+          <m.p
             custom={0}
             variants={fadeUp}
             initial="hidden"
@@ -129,9 +131,9 @@ export default function Hero() {
             className="mb-2 text-sm text-[#9CA3AF]"
           >
             Hola, soy
-          </motion.p>
+          </m.p>
 
-          <motion.h1
+          <m.h1
             custom={1}
             variants={fadeUp}
             initial="hidden"
@@ -139,9 +141,9 @@ export default function Hero() {
             className="mb-2 text-4xl font-bold text-[#F5F5F5] md:text-5xl"
           >
             {personalInfo.name}
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             custom={2}
             variants={fadeUp}
             initial="hidden"
@@ -149,9 +151,9 @@ export default function Hero() {
             className="mb-4 font-mono text-xl text-[#DC2626] md:text-2xl"
           >
             {personalInfo.title}
-          </motion.p>
+          </m.p>
 
-          <motion.p
+          <m.p
             custom={3}
             variants={fadeUp}
             initial="hidden"
@@ -159,9 +161,9 @@ export default function Hero() {
             className="mb-8 max-w-md text-[#9CA3AF]"
           >
             {personalInfo.description}
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             custom={4}
             variants={fadeUp}
             initial="hidden"
@@ -186,11 +188,11 @@ export default function Hero() {
             >
               Ver Proyectos
             </a>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Right column — Terminal */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -201,7 +203,7 @@ export default function Hero() {
           <div className="relative mt-4 h-[2px] w-full overflow-hidden bg-[#1A1A1A]">
             <div className="animate-pipeline absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-transparent via-[#DC2626] to-transparent" />
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

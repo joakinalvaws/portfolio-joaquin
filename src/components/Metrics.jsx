@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { metrics } from '../data/content'
 
 function AnimatedCounter({ value, suffix }) {
@@ -48,7 +48,7 @@ export default function Metrics() {
   return (
     <section className="bg-[#111111] px-6 py-20">
       <div className="mx-auto max-w-6xl">
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -69,7 +69,7 @@ export default function Metrics() {
               </span>
             </div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

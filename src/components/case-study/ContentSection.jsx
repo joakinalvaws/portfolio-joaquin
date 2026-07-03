@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 // Bloque de texto con título y decorador rojo (mismo patrón que las secciones del home).
 // `texto` puede traer dobles saltos de línea → se separa en párrafos.
@@ -6,7 +6,7 @@ export default function ContentSection({ titulo, texto, eyebrow }) {
   const parrafos = texto.split('\n\n').filter(Boolean)
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -27,6 +27,6 @@ export default function ContentSection({ titulo, texto, eyebrow }) {
           </p>
         ))}
       </div>
-    </motion.section>
+    </m.section>
   )
 }

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { HiCode, HiArrowRight } from 'react-icons/hi'
 import { caseStudies } from '../data/projects'
@@ -8,7 +8,7 @@ function ProjectCard({ project, index }) {
   const imageSrc = getAsset(project.cardImage)
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -21,7 +21,7 @@ function ProjectCard({ project, index }) {
         {/* Image */}
         <div className="relative h-48 overflow-hidden bg-[#0A0A0A]">
           {imageSrc ? (
-            <img src={imageSrc} alt={project.titulo} loading="lazy" className="h-full w-full object-cover" />
+            <img src={imageSrc} alt={project.titulo} loading="lazy" decoding="async" className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#9CA3AF]">
               <HiCode className="text-3xl" />
@@ -55,7 +55,7 @@ function ProjectCard({ project, index }) {
           </span>
         </div>
       </Link>
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -63,7 +63,7 @@ export default function Projects() {
   return (
     <section id="proyectos" className="px-6 py-24">
       <div className="mx-auto max-w-6xl">
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -71,7 +71,7 @@ export default function Projects() {
         >
           <h2 className="mb-2 text-3xl font-bold text-[#F5F5F5] md:text-4xl">Proyectos</h2>
           <div className="mx-auto h-1 w-16 rounded bg-[#DC2626]" />
-        </motion.div>
+        </m.div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {caseStudies.map((project, i) => (

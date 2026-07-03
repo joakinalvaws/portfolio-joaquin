@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { HiPhotograph, HiZoomIn } from 'react-icons/hi'
 import { getAsset } from '../../utils/assets'
 import Lightbox from './Lightbox'
@@ -27,7 +27,7 @@ export default function MediaGallery({ galeria }) {
         {galeria.map((item, i) => {
           const src = getAsset(item.src)
           return (
-            <motion.div
+            <m.div
               key={item.src}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +40,7 @@ export default function MediaGallery({ galeria }) {
                   className="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-[#1A1A1A]"
                   aria-label={`Ampliar: ${item.alt}`}
                 >
-                  <img src={src} alt={item.alt} loading="lazy" className="h-full w-full object-cover" />
+                  <img src={src} alt={item.alt} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                   <span className="absolute right-3 top-3 flex items-center gap-1 rounded-md bg-black/70 px-2 py-1 text-xs text-[#F5F5F5] opacity-0 transition-opacity group-hover:opacity-100">
                     <HiZoomIn /> Ampliar
                   </span>
@@ -52,7 +52,7 @@ export default function MediaGallery({ galeria }) {
                   <span className="font-mono text-xs text-[#DC2626]">⚠ {item.placeholder}</span>
                 </div>
               )}
-            </motion.div>
+            </m.div>
           )
         })}
       </div>
@@ -65,7 +65,7 @@ export default function MediaGallery({ galeria }) {
         counter={active ? `${activeIndex + 1} / ${images.length}` : null}
         label={active?.alt}
       >
-        {active && <img src={active.resolvedSrc} alt={active.alt} className="rounded-lg" />}
+        {active && <img src={active.resolvedSrc} alt={active.alt} className="max-h-[85vh] max-w-full rounded-lg object-contain" />}
       </Lightbox>
     </section>
   )

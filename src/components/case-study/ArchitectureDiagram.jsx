@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { HiZoomIn } from 'react-icons/hi'
 import { getAsset } from '../../utils/assets'
 import Lightbox from './Lightbox'
@@ -9,7 +9,7 @@ export default function ArchitectureDiagram({ arquitectura }) {
   const imgSrc = getAsset(arquitectura.imagen)
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
@@ -48,8 +48,8 @@ export default function ArchitectureDiagram({ arquitectura }) {
       <p className="mt-4 text-sm leading-relaxed text-[#9CA3AF]">{arquitectura.descripcion}</p>
 
       <Lightbox open={open} onClose={() => setOpen(false)} label="Diagrama de arquitectura">
-        {imgSrc && <img src={imgSrc} alt={arquitectura.descripcion} className="rounded-lg" />}
+        {imgSrc && <img src={imgSrc} alt={arquitectura.descripcion} className="max-h-[85vh] max-w-full rounded-lg object-contain" />}
       </Lightbox>
-    </motion.section>
+    </m.section>
   )
 }

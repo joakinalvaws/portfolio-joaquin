@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 // Fila de métricas destacadas del proyecto. Los valores pueden ser no numéricos
 // ("94%", "<5s", "Reales"), por eso se muestran con entrada animada en stagger
@@ -13,9 +13,9 @@ export default function MetricsBar({ metricas }) {
           metricas.length >= 4 ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-2 md:grid-cols-3'
         }`}
       >
-        {metricas.map((m, i) => (
-          <motion.div
-            key={m.label}
+        {metricas.map((metrica, i) => (
+          <m.div
+            key={metrica.label}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -23,10 +23,10 @@ export default function MetricsBar({ metricas }) {
             className="flex flex-col items-center gap-2 text-center"
           >
             <span className="font-mono text-3xl font-bold text-[#DC2626] md:text-4xl">
-              {m.valor}
+              {metrica.valor}
             </span>
-            <span className="text-sm text-[#9CA3AF]">{m.label}</span>
-          </motion.div>
+            <span className="text-sm text-[#9CA3AF]">{metrica.label}</span>
+          </m.div>
         ))}
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { HiX, HiChevronLeft, HiChevronRight } from 'react-icons/hi'
 
 // Modal reutilizable (imagen ampliada o diagrama). Sin librerías externas.
@@ -27,7 +27,7 @@ export default function Lightbox({ open, onClose, onPrev, onNext, counter, child
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -72,7 +72,7 @@ export default function Lightbox({ open, onClose, onPrev, onNext, counter, child
             </button>
           )}
 
-          <motion.div
+          <m.div
             key={counter ?? undefined}
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -82,14 +82,14 @@ export default function Lightbox({ open, onClose, onPrev, onNext, counter, child
             className="max-h-[90vh] max-w-5xl overflow-auto"
           >
             {children}
-          </motion.div>
+          </m.div>
 
           {counter && (
             <span className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 font-mono text-xs text-[#9CA3AF]">
               {counter}
             </span>
           )}
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

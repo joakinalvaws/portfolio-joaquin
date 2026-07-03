@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { HiMenuAlt3, HiX } from 'react-icons/hi'
 import { navLinks } from '../data/content'
 
@@ -94,28 +94,42 @@ export default function Navbar() {
       {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed right-0 top-[65px] z-50 flex h-[calc(100vh-65px)] w-64 flex-col gap-6 border-l border-[#1A1A1A] bg-[#111111] px-8 pt-8 md:hidden"
-          >
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => { e.preventDefault(); handleClick(link.href) }}
-                className={`text-lg transition-colors duration-300 ${
-                  activeSection === link.href
-                    ? 'text-[#DC2626]'
-                    : 'text-[#9CA3AF] hover:text-[#DC2626]'
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
-          </motion.div>
+          <>
+            {/* Overlay: cierra el menú al tocar fuera */}
+            <m.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsOpen(false)}
+              // El nav (backdrop-blur) es el containing block de los fixed de adentro,
+              // así que top/bottom se resuelven contra sus 65px: hace falta altura explícita.
+              className="fixed inset-x-0 top-[65px] z-40 h-[calc(100dvh-65px)] bg-black/50 md:hidden"
+              aria-hidden="true"
+            />
+            <m.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className="fixed right-0 top-[65px] z-50 flex h-[calc(100dvh-65px)] w-64 flex-col gap-6 overflow-y-auto border-l border-[#1A1A1A] bg-[#111111] px-8 pt-8 md:hidden"
+            >
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => { e.preventDefault(); handleClick(link.href) }}
+                  className={`text-lg transition-colors duration-300 ${
+                    activeSection === link.href
+                      ? 'text-[#DC2626]'
+                      : 'text-[#9CA3AF] hover:text-[#DC2626]'
+                  }`}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </m.div>
+          </>
         )}
       </AnimatePresence>
     </nav>

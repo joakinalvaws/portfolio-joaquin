@@ -4,14 +4,21 @@ export default function CircuitBackground() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
+    // Sin animación para quienes piden movimiento reducido (y ahorra batería).
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     let animationId
     let particles = []
 
-    const PARTICLE_COUNT = 70
     const CONNECTION_DISTANCE = 150
     const SPEED = 0.3
+
+    // Densidad proporcional al área: ~70 en desktop, ~20-25 en un móvil,
+    // para no quemar CPU/batería en pantallas chicas.
+    const particleCount = () =>
+      Math.min(70, Math.max(18, Math.round((window.innerWidth * window.innerHeight) / 28000)))
 
     function resize() {
       canvas.width = window.innerWidth
@@ -20,7 +27,8 @@ export default function CircuitBackground() {
 
     function createParticles() {
       particles = []
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const count = particleCount()
+      for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -79,18 +87,26 @@ export default function CircuitBackground() {
       animationId = requestAnimationFrame(draw)
     }
 
+    // Debounce: recrear partículas solo cuando el resize termina (en móvil
+    // la barra del navegador dispara resize constantemente al hacer scroll).
+    let resizeTimer
+    const onResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        resize()
+        createParticles()
+      }, 150)
+    }
+
     resize()
     createParticles()
     animationId = requestAnimationFrame(draw)
-
-    window.addEventListener('resize', () => {
-      resize()
-      createParticles()
-    })
+    window.addEventListener('resize', onResize)
 
     return () => {
       cancelAnimationFrame(animationId)
-      window.removeEventListener('resize', resize)
+      clearTimeout(resizeTimer)
+      window.removeEventListener('resize', onResize)
     }
   }, [])
 

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { getTechIcon } from '../../utils/techIcons'
 
 export default function TechStackGrid({ stack }) {
@@ -13,7 +13,7 @@ export default function TechStackGrid({ stack }) {
         {stack.map((item, i) => {
           const Icon = getTechIcon(item)
           return (
-            <motion.div
+            <m.div
               key={item}
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -23,7 +23,7 @@ export default function TechStackGrid({ stack }) {
             >
               <Icon className="text-lg text-[#9CA3AF] transition-colors duration-300 group-hover:text-[#DC2626]" />
               <span className="text-sm text-[#9CA3AF]">{item}</span>
-            </motion.div>
+            </m.div>
           )
         })}
       </div>
